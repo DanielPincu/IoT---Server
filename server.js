@@ -10,6 +10,15 @@ const server = http.createServer((req, res) => {
 
     console.log('TEMP FROM DEVICE:', value)
 
+    wss.clients.forEach(client => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({
+          type: 'temp',
+          value: Number(value)
+        }))
+      }
+    })
+
     res.writeHead(200, { 'Content-Type': 'text/plain' })
     res.end('OK')
     return
