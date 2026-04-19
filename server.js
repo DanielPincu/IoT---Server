@@ -4,6 +4,17 @@ const WebSocket = require('ws')
 const port = process.env.PORT || 10000
 
 const server = http.createServer((req, res) => {
+  if (req.url.startsWith('/temp')) {
+    const url = new URL(req.url, 'http://localhost')
+    const value = url.searchParams.get('value')
+
+    console.log('TEMP FROM DEVICE:', value)
+
+    res.writeHead(200, { 'Content-Type': 'text/plain' })
+    res.end('OK')
+    return
+  }
+
   res.writeHead(200, { 'Content-Type': 'text/plain' })
   res.end('OK')
 })
