@@ -8,7 +8,13 @@ const server = http.createServer((req, res) => {
   res.end('OK')
 })
 
-const wss = new WebSocket.Server({ server })
+const wss = new WebSocket.Server({ noServer: true })
+
+server.on('upgrade', (req, socket, head) => {
+  wss.handleUpgrade(req, socket, head, (ws) => {
+    wss.emit('connection', ws, req)
+  })
+})
 
 console.log('WS running on port', port)
 
