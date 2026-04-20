@@ -20,3 +20,4 @@ const server = http.createServer((req, res) => {
 const wss = new WebSocket.Server({ server })
 
 server.listen(10000)
+
